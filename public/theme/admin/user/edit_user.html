@@ -1,0 +1,74 @@
+<script src="{$static_path}/js/uploadImg.js"></script>
+<form class="form-horizontal js-ajax-form clearfix" action="{:U('User/edit_user',['id'=>$lists.id])}" method='post' enctype=multipart/form-data>
+    <!-- 自定义大小 -->
+    <div class="form-group">
+        <label for="username" class="col-sm-2 control-label">员工姓名</label>
+        <div class="col-sm-4">
+            <input type="text" name="username" class="form-control" id="username" value="{$lists.username}">
+        </div>
+    </div>
+	
+	<div class="form-group">
+        <label for="nickname" class="col-sm-2 control-label">账号</label>
+        <div class="col-sm-4">
+            <input type="text" name="nickname" class="form-control" id="nickname" value="{$lists.nickname}" >
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="sort" class="col-sm-2 control-label">排序</label>
+        <div class="col-sm-4">
+            <input type="text" name="sort" class="form-control" id="sort" value="{$lists.sort}" >
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label for="weixinid" class="col-sm-2 control-label">会员微信ID</label>
+        <div class="col-sm-4">
+            <input type="text" name="weixinid" class="form-control" id="weixinid" value="{$lists.weixinid}">
+        </div>
+    </div>
+	<div class="form-group">
+        <label for="status" class="col-sm-2 control-label">状态</label>
+        <div class="col-sm-4">
+            <label class="i-lab">
+                <input type="radio" name="status" value='2' class="mgr mgr-primary  mgr-lg" {if condition="$lists.status eq 2"} checked{/if} ><span>启用</span>
+            </label>
+            <label class="i-lab">
+                <input type="radio" name="status" value='1' class="mgr mgr-primary mgr-lg" {if condition="$lists.status eq 1"} checked{/if} ><span>禁用</span>
+            </label>
+        </div>
+    </div>
+	<div class="form-group">
+		<label for="weixinid" class="col-sm-2 control-label">所属机构</label>
+		<div class="col-sm-4">
+			<select class=" form-control" name="agent_id" >
+	            <option value="">所属机构</option>
+	            {volist name="agents" id="vo"}
+	            <option value="{$vo.agent_id}" {if condition="input('agent_id') eq $vo.agent_name"} selected{/if}>{$vo.agent_name}</option>
+	            {/volist}
+       		</select>
+		</div>
+    </div>
+	<div class="form-group">
+		<label for="weixinid" class="col-sm-2 control-label">角色名称</label>
+			<div class="col-sm-4">
+		        <select class=" form-control col-sm-2 control-label" name="group_id" >
+		            <option value="" class="col-sm-4">角色名称</option>
+		            {volist name="groups" id="vo"}
+		            <option value="{$vo.group_id}" {if condition="input('group_id') eq $vo.group_name"} selected{/if}>{$vo.group_name}</option>
+		            {/volist}
+		        </select>
+	        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label"></label>
+        <div class="col-sm-3">
+            <button type="submit" class="btn btn-info js-submit-btn mr_3px">确认</button>
+            <button type="reset" class="btn btn-info">重置</button>
+        </div>
+    </div>
+</form>
+
+<script src="{$static_path}/plugins/editor/wangEditor.min.js"></script>
+

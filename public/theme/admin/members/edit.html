@@ -1,0 +1,50 @@
+<style>
+
+</style>
+<form class="form-horizontal js-ajax-form clearfix" action="{:url('Members/edit')}" method='post'>
+    <!-- 自定义大小 -->
+    <input type="hidden" name="member_id" value="{$info.member_id}">
+    <input type="hidden" name="page" value="{$page}">
+    <div class="form-group">
+        <label for="account" class="col-sm-2 control-label">帐号</label>
+        <div class="col-sm-4">
+            <p class="form-control-static">{$info.account}</p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="nickname" class="col-sm-2 control-label">昵称</label>
+        <div class="col-sm-4">
+            <input type="text" name="membername" class="form-control" id="membername" placeholder="昵称" value="{$info.membername}">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label  class="col-sm-2 control-label">性别</label>
+        <div class="col-sm-4">
+            <select class="form-control" name="sex">
+                <option value="1" {if condition='$info.sex eq 1'}selected{/if} >男</option>
+                <option value="2" {if condition='$info.sex eq 2'}selected{/if} >女</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="nickname" class="col-sm-2 control-label">年龄</label>
+        <div class="col-sm-4">
+            <input type="text" name="age" class="form-control" id="age" placeholder="昵称" value="{$info.age}">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="nickname" class="col-sm-2 control-label">最近登录时间</label>
+        <div class="col-sm-4">
+            <p class="form-control-static">{$info.last_time|date="Y-m-d H:i:s",###}</p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputPassword3" class="col-sm-2 control-label"></label>
+        <div class="col-sm-4">
+            <button type="submit" class="btn btn-info js-submit-btn mr_3px">确认</button>
+            <button type="reset" class="btn btn-info">重置</button>
+        </div>
+    </div>
+</form>

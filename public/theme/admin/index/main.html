@@ -1,0 +1,177 @@
+<link href="{$css}main.css" rel="stylesheet">
+<style>
+   #facility{
+        background: white;
+        color: #44c0da;
+    }
+   #members{
+       background: white;
+       color: #e26a2f;
+   }
+</style>
+<div class="good_title" style="width: 80%;height: 60px;background: #e26a2f;margin-top: 4%;margin-left: 10%"><p class="tiao">用户总量: {$member} (人)</p></div>
+<div class="members">
+    <ul class="membersul">
+        <li id="members" data-id="today">今 天</li>
+        <li data-id="weeks">本 周</li>
+        <li data-id="month">本 月</li>
+    </ul>
+</div>
+<div id="tubiao2" style="width: 80%;height: 500px;margin-top: 1%;margin-left: 10%;"></div>
+
+<script src="{$js}echarts.js"></script>
+<script>
+    //用户图表（默认当天新增统计图表）
+    $(function(){
+        var type = 'today';//获取目前选中的类型
+        var url = "{:url('Members/cut')}";
+        $.ajax({
+            type:'post',
+            url:url,
+            data:{'type':type},
+            dataType:'json',
+            success:function(msg){
+                var tubiao2 = echarts.init(document.getElementById('tubiao2'));
+                var  option2 = {
+                    title : {
+                        text: "今日新增用户统计图",
+                        subtext: '单位: 人'
+                    },
+                    tooltip : {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data:['最高值']
+                    },
+                    toolbox: {
+                        show : true,
+                        feature : {
+                            mark : {show: true},
+                          /*  dataView : {show: true, readOnly: false},*/
+                            magicType : {show: true, type: ['line', 'bar']},
+                            restore : {show: true},
+                            saveAsImage : {show: true}
+                        }
+                    },
+                    calculable : true,
+                    xAxis : [
+                        {
+                            type : 'category',
+                            boundaryGap : false,
+                            data :msg['type'],
+                        }
+                    ],
+                    yAxis : [
+                        {
+                            type : 'value',
+                            axisLabel : {
+                                formatter: '{value}'
+                            }
+                        }
+                    ],
+                    series : [
+                        {
+                            name:'新增数量',
+                            type:'line',
+                            data:msg['info'],
+                            markPoint : {
+                                data : [
+                                    {type : 'max', name: '最大值'},
+                                ]
+                            },
+                            markLine : {
+                                data : [
+                                    {type : 'average', name: '平均值'}
+                                ]
+                            }
+                        },
+
+                    ]
+                }
+                tubiao2.setOption(option2)
+            }
+        })
+    })
+</script>
+<script>
+    //切换新增用户图标
+    $('.membersul li').on('click',function(){
+        $(this).siblings('li').removeAttr('id');  // 删除其他兄弟元素的样式
+        $(this).attr('id','members');          // 添加当前元素的样式
+        var type = $(this).attr('data-id');//获取目前选中的类型
+        var url = "{:url('Members/cut')}";
+        $.ajax({
+            type:'post',
+            url:url,
+            data:{'type':type},
+            dataType:'json',
+            success:function(msg){
+                var tubiao2 = echarts.init(document.getElementById('tubiao2'));
+                if(type == 'today'){
+                    var textTitle = "今日新增用户统计图";
+                }else if(type == 'weeks'){
+                    var textTitle = "本周新增用户统计图";
+                }else if(type == 'month'){
+                    var textTitle = "本月新增用户统计图";
+                }
+                var  option = {
+                    title : {
+                        text: textTitle,
+                        subtext: '单位: 人'
+                    },
+                    tooltip : {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data:['最高值']
+                    },
+                    toolbox: {
+                        show : true,
+                        feature : {
+                            mark : {show: true},
+                           /* dataView : {show: true, readOnly: false},*/
+                            magicType : {show: true, type: ['line', 'bar']},
+                            restore : {show: true},
+                            saveAsImage : {show: true}
+                        }
+                    },
+                    calculable : true,
+                    xAxis : [
+                        {
+                            type : 'category',
+                            boundaryGap : false,
+                            data :msg['type'],
+                        }
+                    ],
+                    yAxis : [
+                        {
+                            type : 'value',
+                            axisLabel : {
+                                formatter: '{value}'
+                            }
+                        }
+                    ],
+                    series : [
+                        {
+                            name:'新增数量',
+                            type:'line',
+                            data:msg['info'],
+                            markPoint : {
+                                data : [
+                                    {type : 'max', name: '最大值'},
+                                ]
+                            },
+                            markLine : {
+                                data : [
+                                    {type : 'average', name: '平均值'}
+                                ]
+                            }
+                        },
+                    ]
+                }
+                tubiao2.setOption(option)
+            }
+        })
+    })
+
+</script>

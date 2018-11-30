@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    .must{
+        margin-top: -20px;
+        width:5px;
+        margin-left: 101%;
+        color: red;
+    }
+</style>
+<body>
+<form class="form-horizontal  clearfix" action='Promote/about' method='post' id="web"  enctype="multipart/form-data">
+    <!-- 自定义大小 -->
+    <div class="form-group">
+        <label for="logo" class="col-sm-2 control-label">上传图片</label>
+        <div class="col-sm-4">
+            <input type="text" hidden name="id" id="id" value="{$info.id}">
+            <input type="file" name="image"   style="display: none; border: 0px;" class="bian" id="image" accept="image/gif, image/jpeg, image/jpg, image/png" placeholder="网站LOGO(仅限gif,jpeg,jpg,png格式)，最佳显示尺寸为240*60像素">
+            <input type="text" hidden name="logo" id="logo" value="">
+            <input type="text" hidden name="oldImage" id="oldImage" value="{$info.image}">
+            <div style="border: 0px solid #e5e6e7; width: 100px;height: 100px;" class="images"><img {if condition="$info['image']"}src="/upload/{$info.image}"{else} src="/public/static/img/uploader.png"{/if}  style="width: 520%;height: 200px;"></img></div>
+            <p class="must"><span>*</span></p>
+        </div>
+    </div>
+    <div class="form-group" style="margin-top: 100px;">
+        <label for="describe" class="col-sm-2 control-label">关于我们</label>
+        <div class="col-sm-4">
+            <textarea name="describe" id="describe" aaa="con" style="width:120%;height:500px;display:none;" >{$info.describe}</textarea>
+            <p class="must"><span>*</span></p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label  class="col-sm-2 control-label"></label>
+        <div class="col-sm-4">
+            <button type="submit" class="btn btn-info js-submit-btn mr_3px">确认</button>
+            <button type="reset" class="btn btn-info">重置</button>
+        </div>
+    </div>
+</form>
+</body>
+<script>
+    /**
+     * 点击选择图片
+     */
+    $('.images').on('click',function(){
+        $('#image').click();
+    })
+    /**
+     * 选中图片
+     */
+    $('#image').change(function(){
+        readURl(this);
+    })
+    /**
+     * 图片转码base64
+     */
+    function readURl(input){
+        if(input.files&&input.files[0]){
+            var reader=new FileReader();
+            reader.onload=function(e){
+                $('#logo').val(e.target.result);
+                $('.images').find('img').attr('src',e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    /**
+     * Ajax提交Form表单
+     */
+    $('.btn').on('click',function(){
+        var url = "{:url('Promote/about')}";
+        $.ajax({
+            url:url,
+            type:'post',
+            data:$('#web').serialize(),
+            dataType:'json',
+            success:function(msg){
+                if(msg['status'] == 1){
+                    $('#logo').val('');
+                    if(msg['img']){
+                        $('#oldImage').val(msg['img']);
+                    }
+                    layer.msg('更新成功！',{icon:6});
+                }else{
+                    layer.msg('更新失败！',{icon:5});
+                }
+            }
+        })
+    })
+</script>
+<!--编辑器文件 begin by csw 2018.04.19-->
+<link rel="stylesheet" href="{$static_path}/plugins/kindeditor/themes/default/default.css" />
+<script charset="utf-8" src="{$static_path}/plugins/kindeditor/kindeditor.js"></script>
+<script charset="utf-8" src="{$static_path}/plugins/kindeditor/lang/zh_CN.js"></script>
+<script>
+    var editor        =null;
+    KindEditor.ready(function(K) {
+        editor    =K.create('#describe', {
+            uploadJson:"{$static_path}/plugins/kindeditor/php/upload_json.php",
+            fileManagerJson:"{$static_path}/plugins/kindeditor/php/file_manager_json.php",
+            allowFileManager : true,
+            afterCreate : function() {
+                this.sync();
+            },
+            afterBlur:function(){
+                this.sync();
+            }
+        });
+    });
+</script>
+<!--编辑器文件 end-->
+</html>

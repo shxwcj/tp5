@@ -1,0 +1,76 @@
+<style>
+    .nav-header{
+        width: 100%;
+        background: #333;
+        z-index: 100;
+    }
+    .content-tabs{
+        height: 30%;
+    }
+    /*.navbar-default{*/
+        /*width: 40%;*/
+    /*}*/
+    #left_bian{
+        /*width: 15%;*/
+        background: #e8eced;
+    }
+    #side-menu{
+        background: #e8eced;
+    }
+    #side-menu li:not(:first-child) {
+        background: #e8eced;
+    }
+</style>
+<script type="text/javascript" src="{$static_path}/plugins/tree/jquery.ztree.core.js"></script>
+        <!--左侧导航开始-->
+        <nav class="navbar-default navbar-static-side" role="navigation" id="left_bian" >
+           <!-- <div class="nav-close" ><i class="fa fa-times-circle"></i></div>-->
+            <div class="sidebar-collapse">
+                <ul class="nav sidebar-nav" id="side-menu">
+                    <li class="nav-header" style="height: 80px;width: 100%;" ></li>
+                    <div style="background: yellowgreen;height: 70px;background: #e8eced"></div>
+                    {$menus}
+                </ul>
+            </div>
+        </nav>
+        <!--左侧导航结束-->
+
+        <script type="text/javascript">
+        	 $(function(){
+        		$('#menu2').metisMenu();
+                $("[data-url]").each(function(){
+                    $(this).one('click', function(event){
+                      event.preventDefault();
+                      var $this = $(this);
+                      var url = $this.attr('data-url');
+                      $.ajax({
+                         url: url,
+                         success: function(result) {
+                            $('#menu2').metisMenu('dispose');
+                            $this.parent('li').append(result);
+                            $('#menu2').metisMenu();
+                            $this.click();
+                         }
+                      });
+                    });
+                });
+        	 })
+
+
+             /**
+              * 记录样式
+              */
+             $('.J_menuItem').on('click',function(){
+                 $(".J_menuItem").removeClass("sp");
+                 $("a").removeClass("sp");
+                 $('.J_menuItem').css('background','#e8eced');
+                 $('.sidebar-collapse a').css('background','#e8eced');
+                 $('.J_menuItem').css('color','#333');
+                 $('li').removeClass('active');
+                 $('li').removeClass('sp');
+                 $(this).addClass("sp");
+                 $(this).css("background",'white');
+             })
+
+
+        </script>

@@ -1,0 +1,34 @@
+<form class="form-horizontal js-ajax-form clearfix" action='{:U('')}' method='post'>
+    <!-- 自定义大小 -->
+    <div class="form-group">
+        <label for="account" class="col-sm-2 control-label">反馈用户</label>
+        <div class="col-sm-4">
+            <p class="form-control-static">{$lists.account}</p>
+        </div>
+    </div>
+<div class="form-group">
+    <label for="account" class="col-sm-2 control-label">反馈内容</label>
+    <div class="col-sm-4">
+        <p class="form-control-static">{$lists.content}</p>
+    </div>
+</div>
+<div class="form-group">
+    <label for="account" class="col-sm-2 control-label">反馈时间</label>
+    <div class="col-sm-4">
+        <p class="form-control-static">{$lists.create_time}</p>
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-sm-2 control-label"></label>
+    <div class="col-sm-3">
+        <button type="button" class="btn btn-info mr_3px">确认</button>
+
+    </div>
+</div>
+</form>
+<script>
+    $('.mr_3px').on('click',function(){
+        window.parent.location.reload();//刷新父页面
+        parent.layer.close(index);//关闭弹窗
+    })
+</script>

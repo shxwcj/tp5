@@ -1,0 +1,119 @@
+<div class="panel panel-default">
+    <form role="form" action="{:url('User/index')}" class="panel-body hidden-xs form-inline">
+         <div class="form-group group1">
+           <input type="text" name="start_time" class="form-control i-datestart"  id="date3" placeholder="注册日期" value="{:input('start_time')}">
+        </div>
+        <div class="form-group group2">
+           <input type="text" name="end_time" class="form-control i-dateend" id="date3" placeholder="至今" value="{:input('end_time')}">
+        </div>
+
+        <div class="form-group">
+            <select class=" form-control" name="status" >
+                <option value="">状态</option>
+                <option value="2" {if condition="input('status') eq 2"} selected{/if} selected >启用</option>
+                <option value="1" {if condition="input('status') eq 1"} selected{/if}>禁用</option>
+            </select>
+        </div>
+        
+       
+        <div class="form-group">
+            <input type="text" placeholder="员工姓名" id="ex1" class="form-control" name="username" value="{:input('username')}">
+        </div>
+       
+        <div class="form-group pull-right">
+            <div class="btn-group">
+                <button class="btn btn-primary btn-outline btn-w-m btn-rec">
+                    <i class="fa fa-search"></i><span class="btn-desc">&nbsp;查询</span>
+                </button>
+                <a href="{:url('')}" class="btn btn-default btn-outline btn-rec">
+                    <i class="fa fa-refresh"></i><span class="btn-desc">&nbsp;重置</span>
+                </a>
+            </div>
+        </div>
+    </form>
+
+    <div class="panel-footer clearfix ">
+        <div class="btn-group pull-left hidden-xs">
+            <div class="btn-group pull-left hidden-xs">
+	            <a href="{:U('User/add_user')}" class="btn btn-outline btn-default js-window-load" js-title="新增会员" js-unique="true">
+	                <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;新增
+	            </a>
+	            <a href="{:U('User/del_user')}" class="btn btn-outline btn-default js-del-btn del-all" text="删除后将无法恢复，请谨慎操作">
+	                <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;批量删除
+	            </a>
+        	</div>
+            <a href="{:url('User/export')}"  class="btn btn-outline btn-default" text="">
+                <i class="fa fa-wrench" aria-hidden="true"></i>&nbsp;导出
+            </a>
+        </div>
+        <div class="pull-right">
+        {$lists->render()}
+        </div>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-hover table-bordered table-condensed table-striped" id="sample001" data-name="cool-table">
+    <thead>
+        <tr>
+            <th width='1'><input type="checkbox" class="my-all-check" name="input[]"></th>
+            <th width="240">操作</th>
+            <th width="150" class="hidden-xs">员工姓名</th>
+            <th width="150">所属角色</th>
+            <th width="150" class="hidden-xs">账户名称</th>
+            <th width="150" class="hidden-xs">所属机构</th>
+            <th width="150" class="hidden-xs">区域编码</th>
+            <th width="150" class="hidden-xs">状态</th>
+            <th width="150" class="hidden-xs">描述</th>
+            <th width="150" class="hidden-xs">创建时间</th>
+            <th width="150" class="hidden-xs">更新时间</th>
+        </tr>
+    </thead>
+    <tbody>
+        {volist name="lists" id="vo"}
+		<tr>
+			<td width='1'><input type="checkbox" class="i-checks" value="{$vo.id}" name="input[]"></td>
+			<td>
+				<span class="btn-group">
+                    <a href="{:url('User/edit_user',['id'=>$vo.id,'page'=>$nowpage,'group_id'=>$vo.group_id,'agent_id'=>$vo.agent_id])}" class="btn btn-default btn-outline btn-xs js-window-load" title="编辑"><i class="fa fa-edit fa-fw"></i><span class="hidden-xs">编辑</span></a>
+                    <a href="{:url('User/set_pwd',['id'=>$vo.id])}" class="btn btn-default btn-outline btn-xs js-window-load" title="重置密码"><i class="fa fa-edit fa-fw"></i><span class="hidden-xs">重置密码</span></a>
+                    {if condition="$vo.status eq 1"}
+                    <a href="{:U('User/user_status',['id'=>$vo.id,'status'=>2])}" js-color="#eea236" class="btn btn-default btn-outline btn-xs js-del-btn" text="启用后该会员可以正常展示"><i class="fa fa-check fa-fw"></i><span class="hidden-xs">启用</span></a>
+                    {elseif condition="$vo.status eq 2"/}
+                    <a href="{:U('User/user_status',['id'=>$vo.id,'status'=>1])}" js-color="#eea236" class="btn btn-default btn-outline btn-xs js-del-btn" text="禁用后该会员将无法展示！"><i class="fa fa-times fa-fw"></i><span class="hidden-xs">禁用</span></a>
+                    {/if}
+                    <a href="{:url('del_user',['id'=>$vo.id])}" class="btn  btn-danger btn-outline btn-xs js-del-btn" text="删除后将无法恢复,请谨慎操作！"><i class="fa fa-trash-o fa-fw"></i><span class="hidden-xs">删除</span></a>
+                </span>
+			</td>
+			<td>{$vo.username}</td>
+			<td>{$vo.group_id}</td>
+			<td>{$vo.nickname}</td>
+			<td>{$vo.agent_id}</td>
+			<td>{$vo.area_code}</td>
+			<td>{$vo.statusname}</td>
+			<td>{$vo.des}</td>
+			<td>{$vo.create_time}</td>
+			<td>{$vo.update_time}</td>
+		</tr>
+        {/volist}
+    </tbody>
+</table>
+</div>
+<script type="text/javascript">
+function page_size(){
+    $('.pagesize_form').submit();
+}
+//全选/反选
+$("#all").click(function(){
+    if(this.checked){
+        $("#list :checkbox").prop("checked", true);
+    }else{
+        $("#list :checkbox").prop("checked", false);
+    }
+});
+</script>
+<script type="text/javascript">
+    $(function(){
+        $("table").tableExport({formats:["xlsx"]});
+    })
+</script>

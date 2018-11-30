@@ -1,0 +1,53 @@
+<div class="panel panel-default">
+    <form role="form" action="{:url('index')}" class="form-inline panel-body hidden-xs">
+    	<div class="form-group group1">
+           <input type="text" name="statr_time" class="form-control i-datestart" id="date3" placeholder="开始日期" value="{:input('statr_time')}">
+        </div>
+        <div class="form-group gruop2">
+            <input type="text" name="end_time" class="form-control i-dateend" placeholder="结束日期" value="{:input('end_time')}">
+
+	    </div>
+        <div class="form-group pull-right">
+            <div class="btn-group">
+                <button class="btn btn-primary btn-outline btn-w-m btn-rec">
+                    <i class="fa fa-search"></i><span class="btn-desc">&nbsp;查询</span>
+                </button>
+                <a href="{:url('')}" class="btn btn-default btn-outline btn-rec">
+                    <i class="fa fa-refresh"></i><span class="btn-desc">&nbsp;重置</span>
+                </a>
+            </div>
+        </div>
+    </form>
+    <div class="pull-left btn-group hidden-xs" >
+        <a href="{:url('delAll')}" class="btn btn-default js-del-btn" text="清空后将无法恢复，请谨慎操作">
+            <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;清空
+        </a>
+    </div>
+    <div class="pull-right">
+        {$list->render()}
+    </div>
+</div>
+<div class="table-responsive">
+    <table class="table table-hover table-bordered table-condensed">
+        <thead>
+            <tr>
+                <!-- <th width='1'><input type="checkbox" class="my-all-check" name="input[]"></th> -->
+                <th width="100">操作者</th>
+                <th width="150" >操作时间</th>
+                <th width="150" class="hidden-xs">操作对象</th>
+                <th width="300">操作描述</th>
+            </tr>
+        </thead>
+        <tbody>
+            {volist name="list" id="vo"}
+            <tr>
+            	<!-- <td width='1'><input type="checkbox" value="{$vo.log_id}" class="i-checks" name="input[]"></td> -->
+            	<td>{$vo.admin_id|getNamebyPk='admin','admin_id','account',###}</td>
+                <td >{$vo.create_time}</td>
+                <td class="hidden-xs">{$vo.data_id}</td>
+                <td>{$vo.des}</td>
+            </tr>
+            {/volist}
+        </tbody>
+    </table>
+</div>

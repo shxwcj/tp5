@@ -1,0 +1,74 @@
+<style>
+.fudong div{
+    float: left;
+    line-height: 50px;
+    color: black;
+}
+    .tan {
+        width: 50%;
+        height: 500px;
+        border: 1px solid black;
+        position:absolute;
+        margin-top: -30%;
+        margin-left: 30%;
+        background: white;
+    }
+
+    .cha{
+        position: absolute;
+        width: 6%;
+        height: 29px;
+        text-align: center;
+        line-height: 29px;
+        font-size: 25px;
+        background: black;
+        color: white;
+        margin-left: 94%;
+    }
+</style>
+<form class="form-horizontal js-ajax-form clearfix" action="{:url('Members/edit')}" method='post'>
+    <!-- 自定义大小 -->
+    <div class="form-group" >
+        <label for="account" class="col-sm-2 control-label">注册时间:</label>
+        <div class="col-sm-4">
+            <p class="form-control-static">{$info.create_time}</p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="account" class="col-sm-2 control-label">最近登录时间:</label>
+        <div class="col-sm-4">
+            <p class="form-control-static">{:date('Y-m-d H:i:s',$info.last_time)}</p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="account" class="col-sm-2 control-label">帐号</label>
+        <div class="col-sm-4">
+            <p class="form-control-static">{$info.account}</p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="account" class="col-sm-2 control-label">昵称</label>
+        <div class="col-sm-4">
+            <p class="form-control-static">{$info.membername}</p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="account" class="col-sm-2 control-label">年龄</label>
+        <div class="col-sm-4">
+            <p class="form-control-static">{$info.age}</p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="account" class="col-sm-2 control-label">性别</label>
+        <div class="col-sm-4">
+            <p class="form-control-static">
+                {switch name="$info['sex']" }
+                {case value="1"}男{/case}
+                {case value="2"}女{/case}
+                {default /}保密
+                {/switch}
+            </p>
+        </div>
+    </div>
+</form>
+<script src="{$js}echarts.js"></script>

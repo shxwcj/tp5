@@ -1,0 +1,89 @@
+<div class="timeline-item">
+    <div class="row">
+        <div class="col-xs-2 date">
+            <i class="fa fa-file-text"></i><span>{$dir_info.all.count}个文件</span>
+            <br>
+            <small class="text-navy">{$dir_info.all.size}</small>
+        </div>
+        <div class="col-xs-6 content">
+            <p class="m-b-xs"><strong>所有缓存</strong>
+            </p>
+            <p>更新服务器所有缓存，不包括包括资源缓存</p>
+            <a href="{:url('refresh/index',['type'=>'all'])}" class="btn btn-danger btn-w-m js-del-btn pull-right btn-outline" text="更新服务器所有缓存">
+                <i class="fa fa-recycle fa-fw"></i>&nbsp;更新
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="timeline-item">
+    <div class="row">
+        <div class="col-xs-2 date">
+            <i class="fa fa-file-text"></i><span>{$dir_info.static.count}个文件</span>
+            <br>
+            <small class="text-navy">{$dir_info.static.size}</small>
+        </div>
+        <div class="col-xs-6 content">
+            <p class="m-b-xs"><strong>资源缓存</strong>
+            </p>
+            <p>更新JS、CSS缓存文件，页面显示不正常请清理</p>
+            <a href="{:url('refresh/index',['type'=>'static'])}" class="btn btn-danger btn-w-m js-del-btn pull-right btn-outline" text="更新JS、CSS缓存文件">
+                <i class="fa fa-recycle fa-fw"></i>&nbsp;更新
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="timeline-item">
+    <div class="row">
+        <div class="col-xs-2 date">
+            <i class="fa fa-file-text"></i><span>{$dir_info.html.count}个文件</span>
+            <br>
+            <small class="text-navy">{$dir_info.html.size}</small>
+        </div>
+        <div class="col-xs-6 content">
+            <p class="m-b-xs"><strong>页面缓存</strong>
+            </p>
+            <p>更新HTML页面缓存文件，页面显示不正常请清理</p>
+            <a href="{:url('refresh/index',['type'=>'html'])}" class="btn btn-danger btn-w-m js-del-btn pull-right btn-outline" text="更新页面HTML缓存文件">
+                <i class="fa fa-recycle fa-fw"></i>&nbsp;更新
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="timeline-item">
+    <div class="row">
+        <div class="col-xs-2 date">
+            <i class="fa fa-file-text"></i><span>{$dir_info.log.count}个文件</span>
+            <br>
+            <small class="text-navy">{$dir_info.log.size}</small>
+        </div>
+        <div class="col-xs-6 content">
+            <p class="m-b-xs"><strong>系统日志</strong>
+            </p>
+            <p>系统运行产生的日志文件，不等于操作日志</p>
+            <a href="{:url('refresh/index',['type'=>'log'])}" class="btn btn-danger btn-w-m js-del-btn pull-right btn-outline" text="更新缓存文件">
+                <i class="fa fa-recycle fa-fw"></i>&nbsp;更新
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="timeline-item">
+    <div class="row">
+        <div class="col-xs-2 date">
+            <i class="fa fa-file-text"></i><span>{$dir_info.cache.count}个文件</span>
+            <br>
+            <small class="text-navy">{$dir_info.cache.size}</small>
+        </div>
+        <div class="col-xs-6 content">
+            <p class="m-b-xs"><strong>系统缓存</strong>
+            </p>
+            <p>网站运行的其他缓存文件</p>
+            <a href="{:url('refresh/index',['type'=>'cache'])}" class="btn btn-danger btn-w-m js-del-btn pull-right btn-outline" text="更新缓存文件">
+                <i class="fa fa-recycle fa-fw"></i>&nbsp;更新
+            </a>
+        </div>
+    </div>
+</div>

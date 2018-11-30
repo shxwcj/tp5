@@ -1,0 +1,161 @@
+  // public function index()
+    // {
+    //     // TODO 查询菜单
+    //     $this->view->engine->layout(false);
+    //     $menus = Menu::all(function($db){
+    //         $db->where(['status'=>['eq',1]])->field('menu_id as id,pid as pId,menu_name as name,url as href,menu_icon')->order('sort', 'asc');
+    //     });
+    //     resultToArray($menus);
+    //     foreach ($menus as &$menu) {
+    //         if ($menu["pId"] == 0) {
+    //             $menu['name'] = '<i class="fa fa-fw fa-'.$menu['menu_icon'].'"></i>'.$menu['name'];
+    //         } else {
+    //             $menu['name'] = '&nbsp;&nbsp;'.$menu['name'];
+    //         }
+    //     }
+    //     return view([
+    //         'menus' =>json_encode($menus),
+    //     ]);
+    // }
+
+<script type="text/javascript" src="{$web_static}/plugins/tree/jquery.ztree.core.js"></script>
+        <!--左侧导航开始-->
+        <nav class="navbar-default navbar-static-side" role="navigation">
+            <div class="nav-close"><i class="fa fa-times-circle"></i>
+            </div>
+            <div class="sidebar-collapse">
+                <ul class="nav" id="side-menu">
+                    <li class="nav-header">
+                        <div class="dropdown profile-element">
+                            <span><img alt="image" class="img-circle" src="{$web_static}img/default.jpg" /></span>
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                <span class="clear">
+                               <span class="block m-t-xs"><strong class="font-bold">{:get_login_user_name()}</strong></span>
+                                <span class="text-muted text-xs block">{:get_login_admin_group()}<b class="caret"></b></span>
+                                </span>
+                            </a>
+                            <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                                <!--<li><a class="J_menuItem" href="">修改头像</a>-->
+                                <!--</li>-->
+                                <li><a  class="J_menuItem" href="{:url('Admins/admin_info')}">个人资料{:url('Admins/admin_info')}1</a>
+                                </li>
+                                <!--<li><a class="J_menuItem" href="">信箱</a>-->
+                                <!--</li>-->
+                                <li class="divider"></li>
+                                <li><a href="{:U('Publics/loginOut')}" text="退出登录确认" class="js-del-btn roll-nav roll-right J_tabExit"><i class="fa fa fa-sign-out"></i> 安全退出</a></li>
+                            </ul>
+                        </div>
+                        <div class="logo-element">L</div>
+                    </li>
+                </ul>
+                <ul id="menuList" class="ztree"></ul>
+            </div>
+        </nav>
+        <!--左侧导航结束-->
+
+
+<script type="text/javascript">
+    var zNodes ={$menus};
+    var curMenu = null, zTree_Menu = null;
+    var setting = {
+        view: {
+            showLine: false,
+            showIcon :false,
+            selectedMulti: false,
+            dblClickExpand: false,
+            nameIsHTML:true,
+        },
+        data: {
+            simpleData: {
+                enable: true,
+            }
+        },
+        callback: {
+            onNodeCreated: this.onNodeCreated,
+            beforeClick: this.beforeClick,
+            onClick: this.onClick
+        }
+    };
+    function beforeClick(treeId, node) {
+        $('.active_li').removeClass('active_li')
+        var li_node = $('#'+node.tId);
+        li_node.addClass('active_li');
+        if (node.isParent) {
+            if (node.level === 0) {
+                var pNode = curMenu;
+                while (pNode && pNode.level !==0) {
+                    pNode = pNode.getParentNode();
+                }
+                if (pNode && pNode !== node) {
+                    var a = $("#" + pNode.tId + "_a");
+                    a.removeClass("cur");
+                    zTree_Menu.expandNode(pNode, false);
+                }
+                a = $("#" + node.tId + "_a");
+                a.addClass("cur");
+                var isOpen = false;
+                for (var i=0,l=node.children.length; i<l; i++) {
+                    if(node.children[i].open) {
+                        isOpen = true;
+                        break;
+                    }
+                }
+                if (isOpen) {
+                    zTree_Menu.expandNode(node, true);
+                    curMenu = node;
+                } else {
+                    // zTree_Menu.expandNode(node.children[0].isParent?node.children[0]:node, true);
+                    zTree_Menu.expandNode(node, true);
+                    curMenu = node.children[0];
+                }
+            } else {
+                zTree_Menu.expandNode(node);
+            }
+        } else {
+
+        }
+        return !node.isParent;
+    }
+    function onClick(e, treeId, node) {
+        console.log(node);
+    }
+    function onNodeCreated(e,treeId,node){
+        if (!node.isParent) {
+            var li_node = $('#'+node.tId);
+            li_node.addClass('J_menuItem');
+            li_node.attr('href',node.href);
+        }
+    }
+    $(document).ready(function(){
+        $.fn.zTree.init($("#menuList"), setting, zNodes);
+        zTree_Menu = $.fn.zTree.getZTreeObj("menuList");
+        // zTree_Menu.expandAll(true);
+        zTree_Menu.expandAll(false);
+        curMenu = zTree_Menu.getNodes()[0]//.children[0];
+        // zTree_Menu.selectNode(curMenu);
+        // var a = $("#" + zTree_Menu.getNodes()[0].tId + "_a");
+        // a.addClass("cur");
+    });
+
+
+</script>
+
+
+<style type="text/css">
+    a{outline:none;}
+    :active{noOutline:expression_r(this.onFocus=this.blur());}
+    :focus{outline:0;}
+    ul{-webkit-padding-start:0;-moz-padding-start:0;-o-padding-start:0;-ms-padding-start:0;}
+    .ztree ul,.ztree li{margin:0;padding: 0;width:400px;overflow: hidden;}
+    .ztree a{text-decoration: none}
+    .ztree li a.level0 { background-color: #2f4050;padding-left: 25px;}
+    .ztree li a.level0.cur {background-color: #293846; color: #fff}
+    .ztree li a{ color:#a7b1c2; font-size:13px; font-weight: bold;word-spacing: 2px;}
+    .ztree li span.button.switch {display:none;}
+    .ztree li a.curSelectedNode span{color: #fff;}
+    .ztree a,.ztree span{width:400px;display: block;height: 34px; line-height: 34px;}
+    .ztree .level0>a,.ztree .level0>span{width:400px;display: block;height: 45px; line-height: 45px;}
+    .level1 {padding-left:45px;background: #293846;}
+    .level2 {padding-left:65px;}
+    .active_li{border-left: 4px solid #19aa8d;}
+</style>

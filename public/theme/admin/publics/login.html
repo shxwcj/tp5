@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{$admin_title} - 登录</title>
+    <link rel="shortcut icon" href="{$static_path}favicon.ico">
+    <link href="{$static_path}css/font-awesome.min.css" rel="stylesheet">
+    <script src="{$static_path}js/jquery.min.js"></script>
+    <!-- bootstrap -->
+    <link href="{$static_path}plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <script src="{$static_path}plugins/bootstrap/js/bootstrap.min.js"></script>
+    <link href="{$css}animate.css" rel="stylesheet">
+    <link href="{$css}style.css" rel="stylesheet">
+    <script>
+        if(window.top !== window.self){ window.top.location = window.location;}
+    </script>
+</head>
+<style>
+    .logo-name{
+        width: 35%;
+        height: 100px;
+    }
+    .admin_title{
+        position: absolute;
+        width: 200px;
+        height: 30px;
+        margin-left: 32%;
+        margin-top: -58px;
+        font-size: 22px;
+        line-height: 40px;
+    }
+</style>
+<body class="gray-bg" style="background: white;">
+
+    <div class="middle-box text-center loginscreen  animated fadeInDown">
+        <div>
+            <div>
+                 <h1 class="logo-name"><img class="logo_img" src="../../{$logo}"></h1>
+            </div>
+            <h3 class="admin_title">后 台 管 理 系 统</h3><!--{$admin_title}-->
+
+            <form class="m-t js-ajax-form" name="form" action="{:url('login')}" method="post"  id="web">
+                <div class="form-group">
+                    <input type="text" name="username" class="form-control" placeholder="帐号" id="username" required="">
+                </div>
+                <div class="form-group">
+                    <input type="password" name="password" id="password" class="form-control" placeholder="密码" required="" value="">
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" id="gou"  style="margin-left: -75%" > 记住密码
+                </div>
+                <button type="button" class="btn btn-primary block full-width m-b ">登 录</button>
+
+                <p class="text-muted text-center">
+                   <!-- <a href="login.html#"><small>忘记密码了？</small></a>-->
+                </p>
+            </form>
+        </div>
+    </div>
+
+</body>
+<style type="text/css">
+    .logo-name img{
+        width: 100%;
+        height: 100px;
+        margin-top: -127%;
+    }
+</style>
+<script src="{$static_path}plugins/layui/layer/layer.js"></script>
+<script src="{$static_path}js/layer.com.js"></script>
+<script src="{$static_path}js/common.js"></script>
+<script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+</html>
+<script>
+    /**
+     * 检测登录页面是否有记住密码
+     */
+    $(function(){
+         var check  =  $.cookie('gou');//取值
+        if(check == 1){
+            var username  =  $.cookie('username');//取值
+            var password  =  $.cookie('password');//取值
+            $('#username').val(username);
+            $('#password').val(password);
+            $('input:checkbox').eq(0).prop("checked",'true');
+        }else{
+            $('#username').val('');
+            $('#password').val('');
+        }
+    })
+
+
+
+
+
+
+    $('.btn-primary').on('click',function(){
+        var url="{:url('Publics/login')}";
+        $.ajax({
+            url:url,
+            type:'post',
+            data:$('#web').serialize(),
+            dataType:'json',
+            success:function(msg){
+                   if(msg['status'] == 1){
+                    var  bool = $("input[type='checkbox']").is(':checked');
+                    if(!bool){
+                        $('#username').val('');
+                        $('#password').val('');
+                        $.cookie('username','', { expires: -1 });//存储 ,第一个参数是变量名 第二个参数是值  没有第三个参数只能在本页面拿 天上第三个参数可以去其他页面拿值
+                        $.cookie('password','', { expires: -1 });//存储 ,第一个参数是变量名 第二个参数是值  没有第三个参数只能在本页面拿 天上第三个参数可以去其他页面拿值
+                        $.cookie('gou','', { expires: -1 });//存储 ,第一个参数是变量名 第二个参数是值  没有第三个参数只能在本页面拿 天上第三个参数可以去其他页面拿值
+                    }else{
+                        var username  = $('#username').val();
+                        var password  = $('#password').val();
+                        $.cookie('username',username);//存储 ,第一个参数是变量名 第二个参数是值  没有第三个参数只能在本页面拿 天上第三个参数可以去其他页面拿值
+                        $.cookie('password',password);
+                        $.cookie('gou',1);
+
+                    }
+                    layer.msg('登录成功！',{icon:6});
+                    setTimeout(function () {
+                        window.location.href = "{:url('Index/index')}";
+                    },2000)
+                }else{
+                    layer.msg('登录失败！',{icon:5});
+                    setTimeout(function () {
+                        window.location.href = "{:url('Index/index')}";
+                    },2000)
+                }
+            }
+        })
+
+
+
+    })
+</script>

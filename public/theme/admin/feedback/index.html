@@ -1,0 +1,75 @@
+<!--<style>
+    .yincang{
+        display:block;
+        word-break:keep-all;
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
+    }
+</style>-->
+<div class="panel panel-default">
+    <div class="panel-heading hidden-xs">条件搜索</div>
+    <form role="form" action="{:url('feedback/index')}" class="form-inline panel-body hidden-xs">
+        <div class="form-group group1">
+            <input type="text" name="start_time" class="form-control i-datestart" id="date3" placeholder="开始日期" value="{:input('start_time')}">
+        </div>
+        <div class="form-group gruop2">
+            <input type="text" name="end_time" class="form-control i-dateend" placeholder="结束日期" value="{:input('end_time')}">
+
+        </div>
+        <div class="form-group pull-right">
+            <div class="btn-group">
+                <button class="btn btn-primary btn-outline btn-w-m btn-rec">
+                    <i class="fa fa-search"></i><span class="btn-desc">&nbsp;查询</span>
+                </button>
+                <a href="{:url('')}" class="btn btn-default btn-outline btn-rec">
+                    <i class="fa fa-refresh"></i><span class="btn-desc">&nbsp;重置</span>
+                </a>
+            </div>
+        </div>
+    </form>
+        <div class="pull-left btn-group hidden-xs" >
+            <a href="{:url('feedback/delAll')}" class="btn btn-default del-all" text="删除后将无法恢复，请谨慎操作">
+                <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;删除
+            </a>
+        </div>
+        <div class="pull-right">
+            {$lists->render()}
+        </div>
+    </div>
+<div class="table-responsive">
+        <table class="table table-hover table-bordered table-condensed">
+        <thead>
+            <tr>
+                <th width='1'><input type="checkbox" class="my-all-check" name="input[]"></th>
+                <th width="15%">用户</th>
+                <th width="50%">反馈内容</th>
+                <th width="15%" class="hidden-xs">最后登录时间</th>
+                <th width="19%">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {volist name="lists" id="vo"}
+                <tr>
+                   <td width='1'><input type="checkbox" value="{$vo.feedback_id}" class="i-checks" name="input[]"></td>
+                    <td>{$vo.account}</td>
+                    <td class="hidden-xs  yincang" style="width: 500px;border: 0px; display:block; word-break:keep-all;white-space:nowrap; overflow:hidden;text-overflow:ellipsis;">{$vo.content}</td>
+                    <td class="hidden-xs">{$vo.create_time}</td>
+                    <td >
+                        <span class="btn-group">
+                            <a href="{:url('edit',['feedback_id'=>$vo.feedback_id,'page'=>$nowpage])}" class="btn btn-default btn-outline btn-xs js-window-load" title="编辑--{$vo.account}"><i class="fa fa-edit fa-fw"></i><span class="hidden-xs">详情</span></a>
+                            <a href="{:url('del',['id'=>$vo.feedback_id])}" class="btn  btn-danger btn-outline btn-xs js-del-btn" text="删除后将无法恢复,请谨慎操作！"><i class="fa fa-trash-o fa-fw"></i><span class="hidden-xs">删除</span></a>
+                        </span>
+                    </td>
+                </tr>
+            {/volist}
+        </tbody>
+    </table>
+        <!-- <div class="cleanfix">
+            <div class="pull-left pagination hidden-xs" >
+            </div>
+            <div class="pull-left">
+            </div>
+        </div> -->
+
+    </div>

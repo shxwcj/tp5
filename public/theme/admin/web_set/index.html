@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    .must{
+        margin-top: -20px;
+        width:5px;
+        margin-left: 101%;
+        color: red;
+    }
+</style>
+<body>
+<form class="form-horizontal  clearfix" action='WebSet/index' method='post' id="web"  enctype="multipart/form-data">
+<!-- 自定义大小 -->
+<div class="form-group">
+    <label for="record" class="col-sm-2 control-label">网站备案号</label>
+    <div class="col-sm-4" >
+        <input type="text" name="record" class="form-control" id="record" placeholder="网站备案号，将显示在前台底部欢迎信息等位置" value="{$web.record}">
+        <p class="must"><span>*</span></p>
+    </div>
+</div>
+<div class="form-group">
+    <label for="name" class="col-sm-2 control-label">网站名称</label>
+    <div class="col-sm-4">
+        <input type="text" name="name" class="form-control" id="name" placeholder="网站名称（全名），将显示在前台顶部欢迎信息等位置" value="{$web.name}">
+        <p class="must"><span>*</span></p>
+    </div>
+</div>
+<div class="form-group">
+    <label for="logo" class="col-sm-2 control-label">网站Logo</label>
+    <div class="col-sm-4">
+        <input type="file" name="image"   style="display: none; border: 0px;" class="bian" id="image" accept="image/gif, image/jpeg, image/jpg, image/png" placeholder="网站LOGO(仅限gif,jpeg,jpg,png格式)，最佳显示尺寸为240*60像素">
+        <input type="text" hidden name="logo" id="logo" value="">
+        <input type="text" hidden name="oldImage" id="oldImage" value="{$web['oldImage']}">
+        <div style="border: 0px solid #e5e6e7; width: 100px;height: 100px;" class="images"><img src="{$web['logo']}" style="width: 98px;height: 98px;"></img></div>
+        <p class="must"><span>*</span></p>
+    </div>
+</div>
+<div class="form-group">
+    <label for="title" class="col-sm-2 control-label">网站标题</label>
+    <div class="col-sm-4">
+        <input type="text" name="title" class="form-control" id="title" placeholder="网站标题，将显示在前台顶部欢迎信息等位置" value="{$web.title}">
+    </div>
+</div>
+<!--<div class="form-group">
+    <label for="describe" class="col-sm-2 control-label">网站介绍</label>
+    <div class="col-sm-4">
+        <textarea name="describe" id="describe" aaa="con" style="width:100%;height:500px;display:none;" >{$web.describe}</textarea>
+        <p class="must"><span>*</span></p>
+    </div>
+</div>-->
+<!--<div class="form-group">
+    <label for="keyword" class="col-sm-2 control-label">关键字</label>
+    <div class="col-sm-4">
+        <input type="text" name="keyword" class="form-control" id="keyword" placeholder="网站关键字，便于SEO"  value="{$web.keyword}">
+    </div>
+</div>-->
+<div class="form-group">
+    <label for="contact" class="col-sm-2 control-label">联系人</label>
+    <div class="col-sm-4">
+        <input type="text" name="contact" class="form-control" id="contact" placeholder="联系人"  value="{$web.contact}">
+        <p class="must"><span>*</span></p>
+    </div>
+</div>
+<div class="form-group">
+    <label for="tel" class="col-sm-2 control-label">联系电话</label>
+    <div class="col-sm-4">
+        <input type="text" name="tel" class="form-control" id="tel" placeholder="商家中心右下侧显示，方便商家遇到问题时咨询" value="{$web.tel}">
+        <p class="must"><span>*</span></p>
+    </div>
+</div>
+<div class="form-group">
+    <label for="address" class="col-sm-2 control-label">具体位置</label>
+    <div class="col-sm-4">
+        <select name="province" id="province" class="bian" style="width: 20%; height: 33px;border-color: #e5e6e7;">
+            <option value='0'>--请选择--</option>
+            {foreach name="areas['province']" id='vo'}
+                {if condition="$web['province'] eq $vo['area_id']"}
+                    <option value="{$vo.area_id}" selected>{$vo.area_name}</option>
+                {else/}
+                    <option value="{$vo.area_id}" >{$vo.area_name}</option>
+                {/if}
+            {/foreach}
+        </select>
+        <select name="city" id="city" class="bian" style="width: 20%; height: 33px;border-color: #e5e6e7;">
+            <option value='0'>--请选择--</option>
+            {foreach name="areas['city']" id='vo'}
+            {if condition="$web['city'] eq $vo['area_id']"}
+            <option value="{$vo.area_id}" selected>{$vo.area_name}</option>
+            {else/}
+            <option value="{$vo.area_id}" >{$vo.area_name}</option>
+            {/if}
+            {/foreach}
+        </select>
+        <select name="area" id="area" class="bian" style="width: 20%; height: 33px;border-color: #e5e6e7;">
+            <option value='0'>--请选择--</option>
+            {foreach name="areas['area']" id='vo'}
+            {if condition="$web['area'] eq $vo['area_id']"}
+            <option value="{$vo.area_id}" selected>{$vo.area_name}</option>
+            {else/}
+            <option value="{$vo.area_id}" >{$vo.area_name}</option>
+            {/if}
+            {/foreach}
+        </select>
+        <input type="text" class="bian" style="width: 37.5%; height: 33px;border:1px solid #e5e6e7;" name="address"  id="address" placeholder="详细地址详情" value="{$web.address}">
+        <p class="must"><span>*</span></p>
+    </div>
+</div>
+<div class="form-group">
+    <label for="" class="col-sm-2 control-label">网站状态</label>
+    <div class="col-sm-4">
+        <label class="i-lab"><input type="radio" name="status" value='1' class="mgr mgr-primary" {if condition="$web['status'] eq 1"}checked {/if}><span>正常</span></label>
+        <label class="i-lab"><input type="radio" name="status" value='0' class="mgr mgr-primary"  {if condition="$web['status'] neq 1"}checked {/if}><span>禁用</span></label>
+        <p class="must"><span>*</span></p>
+    </div>
+</div>
+<div class="form-group">
+    <label  class="col-sm-2 control-label"></label>
+    <div class="col-sm-4">
+        <button type="submit" class="btn btn-info js-submit-btn mr_3px">确认</button>
+        <button type="reset" class="btn btn-info">重置</button>
+    </div>
+</div>
+</form>
+</body>
+<script>
+    /**
+     * 部分地方添加去掉样式
+     */
+    $('.bian').on('click',function(){
+        $('.bian').css("border-color","#e5e6e7");
+        $(this).css("border-color","#1ab394");
+    })
+    $('.bian').on('blur',function(){
+        $('.bian').css("border-color","#e5e6e7");
+    })
+    /**
+     * 点击选择图片
+     */
+    $('.images').on('click',function(){
+        $('#image').click();
+    })
+    /**
+     * 选中图片
+      */
+    $('#image').change(function(){
+        readURl(this);
+    })
+    /**
+     * 图片转码base64
+     */
+    function readURl(input){
+        if(input.files&&input.files[0]){
+            var reader=new FileReader();
+            reader.onload=function(e){
+                $('#logo').val(e.target.result);
+                $('.images').find('img').attr('src',e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    /**
+     * 切换省显示区
+     */
+    $('#province').on('change',function(){
+        var city = "<option value='0'>--请选择--</option>";
+        var area = "<option value='0'>--请选择--</option>";
+        $('#city').empty();
+        $('#area').empty();
+        $(city).appendTo('#city');
+        $(area).appendTo('#area');
+        var provinceId     = $('#province').val();
+        if(provinceId > 1 && provinceId < 36){
+            var url        = "{:url('WebSet/getAreas')}";
+            $.ajax({
+                url:url,
+                type:'post',
+                async: false,
+                data:{'areaId':provinceId},
+                dataType:'json',
+                success:function(msg){
+                    var leng = msg.length;
+                    var html = '';
+                    for (var i = 0; i < leng; i++){
+                        html += "<option value="+msg[i]['area_id']+">"+msg[i]['area_name']+"</option>";
+                    }
+                    $(html).appendTo('#city');
+                }
+            })
+        }
+    })
+
+    /**
+     * 切换区显示县
+     */
+    $('#city').on('change',function(){
+        var area = "<option value='0'>--请选择--</option>";
+        $('#area').empty();
+        $(area).appendTo('#area');
+        var cityId     = $('#city').val();
+        var url        = "{:url('WebSet/getAreas')}";
+        $.ajax({
+            url:url,
+            type:'post',
+            async: false,
+            data:{'areaId':cityId},
+            dataType:'json',
+            success:function(msg){
+                var leng = msg.length;
+                var html = '';
+                for (var i = 0; i < leng; i++){
+                    html += "<option value="+msg[i]['area_id']+">"+msg[i]['area_name']+"</option>";
+                }
+                $(html).appendTo('#area');
+            }
+        })
+    })
+    /**
+     * Ajax提交Form表单
+     */
+    $('.btn').on('click',function(){
+        var record   = $.trim($('#record').val());//网站备案号
+        var name     = $.trim($('#name').val());//网站名称
+        var describe = $.trim($('#describe').val());//网站描述
+        var contact  = $.trim($('#contact').val());//网站联系人
+        var tel      = $.trim($('#tel').val());//联系电话
+        var province = $.trim($('#province').val());//省
+        var city     = $.trim($('#city').val());//市
+        var area     = $.trim($('#area').val());//区
+        var address  = $.trim($('#address').val());//详细地址
+        var status   = $.trim($('.mgr-primary').val());//网站状态
+        var  tel1    = /^1[3|4|5|7|8][0-9]{9}$/;//验证手机
+        var  tel2    = /^((0\d{2,3}\-)|)\d{7,8}(|([-\u8f6c]{1}\d{1,5}))$/;//验证座机
+        if(record == ''){
+            layer.msg('请填写网站备案号',{icon:5});
+            return false;
+        }
+        if(name == ''){
+            layer.msg('请填写网站名称',{icon:5});
+            return false;
+        }
+      /*  if(describe == ''){
+            layer.msg('请填写关于我们',{icon:5});
+            return false;
+        }*/
+        if(contact == ''){
+            layer.msg('请填写网站联系人',{icon:5});
+            return false;
+        }
+        if(!tel1.test(tel) && !tel2.test(tel)){
+            layer.msg('请填写网站联系电话',{icon:5});
+            return false;
+        }
+        if(province == 0){
+            layer.msg('请选择省市区',{icon:5});
+            return false;
+        }
+        if(city == 0){
+            layer.msg('请选择市区',{icon:5});
+            return false;
+        }
+        if(area == 0){
+            layer.msg('请选择区/县',{icon:5});
+            return false;
+        }
+        if(address == ''){
+            layer.msg('请填写详细地址',{icon:5});
+        }
+        if(status == ''){
+            layer.msg('请选择网站状态',{icon:5});
+            return false;
+        }
+        var url = "{:url('WebSet/index')}";
+      $.ajax({
+          url:url,
+          type:'post',
+          data:$('#web').serialize(),
+          dataType:'json',
+          success:function(msg){
+              if(msg['status'] == 1){
+                  $('#logo').val('');
+                  if(msg['img']){
+                      $('#oldImage').val(msg['img']);
+                  }
+                  layer.msg('更新成功！',{icon:6});
+              }else{
+                  layer.msg('更新失败！',{icon:5});
+              }
+          }
+      })
+    })
+</script>
+<!--编辑器文件 begin by csw 2018.04.19-->
+<link rel="stylesheet" href="{$static_path}/plugins/kindeditor/themes/default/default.css" />
+<script charset="utf-8" src="{$static_path}/plugins/kindeditor/kindeditor.js"></script>
+<script charset="utf-8" src="{$static_path}/plugins/kindeditor/lang/zh_CN.js"></script>
+<script>
+    var editor        =null;
+    KindEditor.ready(function(K) {
+        editor    =K.create('#describe', {
+            uploadJson:"{$static_path}/plugins/kindeditor/php/upload_json.php",
+            fileManagerJson:"{$static_path}/plugins/kindeditor/php/file_manager_json.php",
+            allowFileManager : true,
+            afterCreate : function() {
+                this.sync();
+            },
+            afterBlur:function(){
+                this.sync();
+            }
+        });
+    });
+</script>
+<!--编辑器文件 end-->
+</html>

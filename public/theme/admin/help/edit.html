@@ -1,0 +1,54 @@
+<style>
+    .must{
+        margin-top: -20px;
+        width:5px;
+        margin-left: 101%;
+        color: red;
+    }
+</style>
+<form class="form-horizontal js-ajax-form clearfix" action="{:url('Help/edit')}" method='post'>
+<!-- 自定义大小 -->
+    <input type="hidden" name="help_id" value="{$lists.help_id}">
+<div class="form-group">
+    <label for="account" class="col-sm-2 control-label">标题</label>
+    <div class="col-sm-4">
+        <input type="text" name="title" class="form-control" id="title"  value="{$lists.title}">
+        <p class="must"><span>*</span></p>
+    </div>
+</div>
+<div class="form-group">
+    <label for="account" class="col-sm-2 control-label">内容</label>
+    <div class="col-sm-4">
+        <textarea name="content" aaa="con" style="width:200%;height:500px;display:none;" id="content">{$lists.content}</textarea>
+        <p class="must"><span>*</span></p>
+    </div>
+</div>
+<div class="form-group">
+    <label for="inputPassword3" class="col-sm-2 control-label"></label>
+    <div class="col-sm-4">
+        <button type="submit" class="btn btn-info js-submit-btn mr_3px">确认</button>
+        <button type="reset" class="btn btn-info">重置</button>
+    </div>
+</div>
+</form>
+<!--编辑器文件 begin by csw 2018.04.19-->
+<link rel="stylesheet" href="{$static_path}/plugins/kindeditor/themes/default/default.css" />
+<script charset="utf-8" src="{$static_path}/plugins/kindeditor/kindeditor.js"></script>
+<script charset="utf-8" src="{$static_path}/plugins/kindeditor/lang/zh_CN.js"></script>
+<script>
+    var editor        =null;
+    KindEditor.ready(function(K) {
+        editor    =K.create('#content', {
+            uploadJson:"{$static_path}/plugins/kindeditor/php/upload_json.php",
+            fileManagerJson:"{$static_path}/plugins/kindeditor/php/file_manager_json.php",
+            allowFileManager : true,
+            afterCreate : function() {
+                this.sync();
+            },
+            afterBlur:function(){
+                this.sync();
+            }
+        });
+    });
+</script>
+<!--编辑器文件 end-->

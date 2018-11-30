@@ -1,0 +1,133 @@
+<script src="{$static_path}/js/uploadImg.js"></script>
+<form class="form-horizontal js-ajax-form clearfix" action="{:U('User/add_user')}" method='post' enctype=multipart/form-data>
+    <!-- 自定义大小 -->
+    <div class="form-group">
+        <label for="username" class="col-sm-2 control-label">员工姓名</label>
+        <div class="col-sm-4">
+            <input type="text" name="username" class="form-control" id="username" placeholder="员工姓名">
+        </div>
+    </div>
+	
+	<div class="form-group">
+        <label for="nickname" class="col-sm-2 control-label">账号</label>
+        <div class="col-sm-4">
+            <input type="text" name="nickname" class="form-control" id="nickname" placeholder="账号">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="sort" class="col-sm-2 control-label">排序</label>
+        <div class="col-sm-4">
+            <input type="text" name="sort" class="form-control" id="sort" placeholder="排序">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="password" class="col-sm-2 control-label">密码</label>
+        <div class="col-sm-4">
+            <input type="password" name="password" class="form-control" id="password" placeholder="密码">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="repassword" class="col-sm-2 control-label">确认密码</label>
+        <div class="col-sm-4">
+            <input type="password" name="repassword" class="form-control" id="repassword" placeholder="确认密码">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="weixinid" class="col-sm-2 control-label">会员微信ID</label>
+        <div class="col-sm-4">
+            <input type="text" name="weixinid" class="form-control" id="weixinid" placeholder="会员微信ID">
+        </div>
+    </div>
+	<div class="form-group">
+        <label for="status" class="col-sm-2 control-label">状态</label>
+        <div class="col-sm-4">
+            <label class="i-lab">
+                <input type="radio" name="status" value='2' class="mgr mgr-primary  mgr-lg" checked><span>启用</span>
+            </label>
+            <label class="i-lab">
+                <input type="radio" name="status" value='1' class="mgr mgr-primary mgr-lg" ><span>禁用</span>
+            </label>
+        </div>
+    </div>
+	<div class="form-group">
+		<label for="weixinid" class="col-sm-2 control-label">所属机构</label>
+		<div class="col-sm-4">
+			<select class=" form-control" name="agent_id" >
+	            <option value="">所属机构</option>
+	            {volist name="agents" id="vo"}
+	            <option value="{$vo.agent_id}" {if condition="input('agent_id') eq $vo.agent_id"} selected{/if}>{$vo.agent_name}</option>
+	            {/volist}
+       		</select>
+		</div>
+    </div>
+	<div class="form-group">
+		<label for="weixinid" class="col-sm-2 control-label">角色名称</label>
+			<div class="col-sm-4">
+		        <select class=" form-control col-sm-2 control-label" name="group_id" >
+		            <option value="" class="col-sm-4">角色名称</option>
+		            {volist name="groups" id="vo"}
+		            <option value="{$vo.group_id}" {if condition="input('group_id') eq $vo.group_id"} selected{/if}>{$vo.group_name}</option>
+		            {/volist}
+		        </select>
+	        </div>
+    </div>
+
+   <!--  <div class="form-group">
+       <label for="article_content" class="col-sm-2 control-label">描述</label>
+       <div class="col-sm-9 ">
+           <div id="div2" class="text"></div>
+       </div>
+       <input type="hidden" name="article_content" id="article_content"  value=""/>
+   </div> -->
+
+    <!-- <div class="form-group">
+        <label for="image" class="col-sm-2 control-label">上传logo</label>
+        <div class="img_cont col-sm-10">
+            <div class="img_prev"></div>
+            <input type="file" name="iamge" id="image" />
+        </div>
+    </div> -->
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label"></label>
+        <div class="col-sm-3">
+            <button type="submit" class="btn btn-info js-submit-btn mr_3px">确认</button>
+            <button type="reset" class="btn btn-info">重置</button>
+        </div>
+    </div>
+</form>
+
+<script src="{$static_path}/plugins/editor/wangEditor.min.js"></script>
+
+<!-- <script type="text/javascript">
+    var E = window.wangEditor
+    var editor1 = new E('#div2');//必须以 editorxxxxx 方式命名
+    editor1.customConfig = {
+        uploadImgServer    :'{:url("layouts/text")}',// 上传图片服务器
+        showLinkImg        : false,// 隐藏“网络图片”tab
+        uploadImgMaxSize   : 3*1024*1024,//限制图片大小
+        uploadImgMaxLength : 5,// 限制一次最多上传 5 张图片
+        uploadFileName     : 'image',//自定义上传文件名
+        uploadImgParams    : {
+            token: 'abcdef12345'   // 自定义上传参数，属性值会自动进行 encode ，此处无需 encode
+        },
+    }
+    editor1.create();
+    $('.js-submit-btn').click(function () {
+        $("#article_content").attr('value',editor1.txt.html());
+        console.log(editor1.txt.html());
+    })
+
+</script>
+
+<script type="text/javascript">
+    $('#image').imgUpload({
+            width:100,//预览宽度
+            height:100,//预览高度
+            imgWidth:100,//图片上传宽度
+            imgHeight:100,//图片上传高度
+            isCut:false,//是否裁剪
+            maxSize: 10240,//允许上传最大值(KB)
+            allowedNum:1//允许上传最大数量
+    });
+</script> -->

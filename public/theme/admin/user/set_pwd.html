@@ -1,0 +1,30 @@
+<form class="form-horizontal js-ajax-form clearfix" action="{:U('User/set_pwd',['id'=>input('id')])}" method='post' >
+    <!-- 自定义大小 -->
+    <div class="form-group">
+        <label for="old_password" class="col-sm-2 control-label">旧密码</label>
+        <div class="col-sm-4">
+            <input type="password" name="old_password" class="form-control" id="old_password" placeholder="旧密码">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="password" class="col-sm-2 control-label">新密码</label>
+        <div class="col-sm-4">
+            <input type="password" name="password" class="form-control" id="password" placeholder="新密码">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="repassword" class="col-sm-2 control-label">确认密码</label>
+        <div class="col-sm-4">
+            <input type="password" name="repassword" class="form-control" id="repassword" placeholder="确认密码">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label"></label>
+        <div class="col-sm-3">
+            <button type="submit" class="btn btn-info js-submit-btn mr_3px">确认</button>
+            <button type="reset" class="btn btn-info">重置</button>
+        </div>
+    </div>
+</form>
+
+

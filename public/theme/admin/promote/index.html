@@ -1,0 +1,137 @@
+<style>
+   .btn-group>a{
+       margin-left: 5px;
+   }
+    .form-inline div{
+        float: left;
+    }
+    .xianshi{
+        position: absolute;
+        width: 300px;
+        height: 200px;
+        border: 4px solid seagreen ;
+        margin-left: 30%;
+        border-radius:15px;
+    }
+    .title{
+        position: relative;
+        width: 260px;
+        height: 30px;
+        border-bottom: 2px solid seagreen ;
+        text-align: center;
+        line-height: 30px;
+        font-size: 18px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .content{
+        overflow:auto;
+        height: 195px;
+        position: relative;
+      /* margin-top: 5px;*/
+        text-indent:25px;
+        font-size: 16px;
+
+    }
+    .cha{
+        position: relative;
+        width: 35px;
+        height: 30px;
+        border-bottom: 2px solid seagreen ;
+        border-left: 2px solid seagreen ;
+        margin-left: 260px;
+        margin-top: -30px;
+        text-align: center;
+        line-height: 30px;
+        font-size: 30px;
+    }
+</style>
+<div class="panel panel-default">
+    <div class="panel-heading hidden-xs">条件搜索</div>
+    <form role="form" action="{:url('Promote/index')}" class="form-inline panel-body hidden-xs">
+        <div class="form-group">
+            <label for="ex1">图片名称</label>
+            <input type="text" placeholder="图片名称" id="ex1" class="form-control" name="img_name" value="{:input('img_name')}">
+        </div>
+        <div class="form-group pull-right">
+            <div class="btn-group">
+                <button class="btn btn-primary btn-outline btn-w-m btn-rec">
+                    <i class="fa fa-search"></i><span class="btn-desc">&nbsp;查询</span>
+                </button>
+                <a href="{:url('')}" class="btn btn-default btn-outline btn-rec">
+                    <i class="fa fa-refresh"></i><span class="btn-desc">&nbsp;重置</span>
+                </a>
+            </div>
+        </div>
+    </form>
+        <div class="pull-left btn-group hidden-xs" >
+            <a href="{:url('Promote/addSlideShow')}" class="btn btn-default js-window-load" js-title="新增轮播图" js-unique="true">
+                <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;新增
+            </a>
+            <a href="{:url('Promote/delAll')}" class="btn btn-default del-all" text="删除后将无法恢复，请谨慎操作">
+                <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;删除
+            </a>
+        </div>
+        <div class="pull-right">
+            {$lists->render()}
+        </div>
+</div>
+<div class="table-responsive">
+    <table class="table table-hover table-bordered table-condensed">
+        <thead>
+        <tr>
+            <th width='2%'><input type="checkbox" class="my-all-check" name="input[]"></th>
+            <th width="20%">图片名称</th>
+            <th width="20%">详情</th>
+            <th width="20%">状态</th>
+            <th width="19%" class="hidden-xs">创建时间</th>
+            <th width="19%">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {volist name="$lists" id="vo"}
+            <tr>
+                <td width='2%'><input type="checkbox" value="{$vo.img_id}" class="i-checks" name="input[]"></td>
+                <td width='20%'>{$vo.img_name}</td>
+                <td width='20%'><a href="javascript:;" title="{$vo.img_name}" class="tan"  data="{$vo.path}">详情</a></td>
+                <th width="20%">
+                    {if condition="$vo['status'] eq 1"}已启用
+                    {else}已禁用
+                    {/if}
+                </th>
+                <td class="hidden-xs" width='19%'>{$vo.create_time}</td>
+                <td width='19%'>
+                    <span class="btn-group">
+                     <!--   <a href="{:url('Promote/edit',['img_id'=>$vo.img_id,'page'=>$nowpage])}" class="btn btn-default btn-outline btn-xs js-window-load" title="编辑&#45;&#45;{$vo.img_name}" js-width="35%" js-height="50%"><i class="fa fa-edit fa-fw"></i><span class="hidden-xs" >编辑</span></a>-->
+                        <a href="{:url('Promote/change_status',['img_id'=>$vo.img_id,'status'=>1])}" js-color="#eea236" class="btn btn-default btn-outline btn-xs js-del-btn" text="启用后该用户可以正常登录"><i class="fa fa-check fa-fw"></i><span class="hidden-xs">启用</span></a>
+                        <a href="{:url('Promote/change_status',['img_id'=>$vo.img_id,'status'=>2])}" js-color="#eea236" class="btn btn-default btn-outline btn-xs js-del-btn" text="禁用后图片无法再APP上展示,请谨慎操作！"><i class="fa fa-times fa-fw"></i><span class="hidden-xs">禁用</span></a>
+                        <a href="{:url('Promote/del',['id'=>$vo.img_id])}" class="btn  btn-danger btn-outline btn-xs js-del-btn" text="删除后将无法恢复,请谨慎操作！"><i class="fa fa-trash-o fa-fw"></i><span class="hidden-xs">删除</span></a>
+                    </span>
+                </td>
+            </tr>
+        {/volist}
+        </tbody>
+    </table>
+</div>
+<div class="xianshi" style="display: none;">
+    <div class="title"><strong class="tou"></strong></div>
+    <div class="cha"><strong>×</strong></div>
+    <div class="content" ><img class="tupian" src="" style="margin-left: -27px;border-radius:0px 0px 13px 15px;" width="294px" height="162px"></div>
+</div>
+<script>
+    $('.tan').on('click',function(){
+        var data = $(this).attr('data');
+        var titel = $(this).attr('title');
+        $('.tou').text(titel);
+        $('.tupian').attr('src','/upload/'+data);
+        $('.xianshi').show();
+    })
+    /**
+     * 隐藏弹窗
+     */
+    $('.cha').on('click',function(){
+        $('.xianshi').hide();
+        $('.tou').text('');
+        $('.tupian').attr('src','');
+    })
+</script>

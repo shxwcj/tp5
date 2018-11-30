@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <title>{$admin_title}</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <!-- 引入公共css/js -->
+    <link rel="shortcut icon" href="{$static_path}favicon.ico">
+    <!-- JQuery -->
+    <script src="{$static_path}js/jquery.min.js"></script>
+    <link href="{$static_path}plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 字体图标 -->
+    <link href="{$static_path}css/font-awesome.min.css" rel="stylesheet">
+    <!-- 自定义样式 -->
+    <link href="{$css}/animate.css" rel="stylesheet">
+    <link href="{$css}/style.css" rel="stylesheet">
+</head>
+<body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden">
+    <div id="wrapper">
+		{include file="layout/left"}
+        <!--右侧部分开始-->
+        <div id="page-wrapper" class="gray-bg dashbard-1" >
+            <div class="ding" ></div>
+            <div  style="color: white; width: 100px;height: 78px; position: fixed;z-index: 10000000000000;margin-top: -79px;margin-left: -1.05%;">
+                <img src="/upload/{$log}" width="100px" height="78px">
+            </div>
+            <div class="row content-tabs" id="dingdao">
+                <p class="zhan_title">烯时代后台管理系统</p>
+                <div class="xin">
+                <span >{$user.nickname} | </span>
+                <span ><a href="javascript:;" onclick="edit_password({$user['admin_id']})" style="color: white;">修改密码</a> | </span>
+                    <span ><a href="javascript:;" onclick="out()" style="color: white;">退出</a></span>
+                </div>
+                <div id="aa" style="width:200px;height: 200px;border: 2px solid red;margin-top: -50px;display: none;"></div>
+            </div>
+            <div class="row J_mainContent" id="content-main" style="background: white;" >
+                <iframe class="J_iframe" name="iframe0" style="background: white;border-color: white" width="100%" height="100%" src="{:url('index/main')}" frameborder="0" data-id="index_v1.html" seamless></iframe>
+            </div>
+        <!--右侧部分结束-->
+    </div>
+
+    <link href="{$static_path}plugins/metisMenu/metisMenu.css"></link>
+    <!-- layui -->
+    <script src="{$static_path}/plugins/layui/layer/layer.js"></script>
+    <!-- 全局js -->
+    <script src="{$static_path}js/common.js"></script>
+    <script src="{$static_path}plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="{$static_path}plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="{$static_path}plugins/metisMenu/jquery.metisMenu.js"></script>
+
+    <!-- 第三方插件，加载进度条 -->
+   <!-- <script src="{$static_path}plugins/pace/pace.min.js"></script>-->
+
+    <!-- 自定义js -->
+    <script src="{$js}/hplus.js?v=4.1.0"></script>
+    <script src="{$js}/contabs.js"></script>
+    <!-- 检测登录状态-->
+    <style type="text/css">
+        .J_mainContent{
+            overflow-y: hidden!important;
+        }
+        #content-main{
+            margin-top: 0px;
+            /*margin-left: 3%;*/
+            height: 90%;
+            border: 0px;
+        }
+        #dingdao{
+            height: 80px;
+            border: 0px;
+            margin-left: -10%;
+            background: #333;
+            margin-top: -80px;
+            z-index: 10000;
+        }
+        .zhan_title{
+            line-height: 80px;
+            font-size: 17px;
+            margin-left: 40%;
+            color: white;
+        }
+        .ding{
+            width: 100%;
+            height: 80px;
+            background: #333;
+            /*margin-left: -40%;*/
+            z-index: 10000;
+        }
+        .xin{
+            font-size: 15px;
+            color: white;
+            float: left;
+            margin-left: 80%;
+            margin-top: -65px;
+        }
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $(document).bind("contextmenu",function(e){
+                return false;
+            });
+        });
+        $(document).on('dblclick','.J_menuTab',function(){
+            $(this).find('.fa-times-circle').click();
+        })
+        $(document).on('mousedown','.J_menuTab',function(e){
+            if (e.which != 1) {
+                $(this).find('.fa-times-circle').click();
+            }
+        })
+        function edit_password(id){
+
+            layer.open({
+                type: 1,
+                skin: 'layui-layer-rim', //加上边框
+                area: ['600px', '340px'], //宽高
+                content: '<form method="post" id="my_password"><div  style="height: 60px;"><p style="line-height: 60px; font-size: 16px;margin-left: 5%;">原密码: <input type="password"  name="original_password"  value="" style="width: 70%;height: 40px;" ></p></div>' +
+                '<div id="qqq" style="height: 60px;"><p style="line-height: 60px; font-size: 16px;margin-left: 5%;"  >新密码: <input type="password" value="" name="new_password" style="width: 70%;height: 40px;"></p></div>' +
+                '<div  style="height: 60px;"><p style="line-height: 60px; font-size: 16px;margin-left: 0%;">确认新密码: <input type="password" value="" name="confirm_password" style="width: 66%;height: 40px;"></p></div>' +
+                '<div style="width: 40%;height: 60px;margin-left: 30%;margin-top: 5%;">' +
+                '<button type="button" onclick="queren()" style="width:80px;height: 40px;background: green;font-size: 20px;color: white;">确认</button><button type="button" onclick="guan()" style="width:80px;height: 40px;background: red;font-size: 20px;color: white;margin-left: 5%;">取消</button>' +
+                '</div></form>',
+            });
+            $('.layui-layer-title').html('<span style="font-size: 16px;">修改密码</span>');
+        }
+       function queren(){
+            var url = "{:url('Admins/admin_password')}";
+            $.ajax({
+                type:'post',
+                url:url,
+                data:$('#my_password').serialize(),
+                dataType:'json',
+                success:function (msg) {
+                 if(msg.code ===1){
+                     layer.msg('修改成功!',{icon:6});
+                     setTimeout(function(){
+                         window.parent.location.reload();//刷新父页面
+                         parent.layer.close(index);//关闭弹窗
+                     },2000)
+                 }else{
+                     layer.msg(msg.msg,{icon:5});
+                 }
+                }
+            })
+        }
+        /**
+         *关闭弹窗
+         */
+       function guan(){
+           window.parent.location.reload();//刷新父页面
+           parent.layer.close(index);//关闭弹窗
+       }
+        /**
+         * 退出
+         */
+       function out(){
+           var url = "{:url('Publics/loginOut')}";
+           $.ajax({
+               url:url,
+               type:'post',
+               data:'',
+               dataType:'json',
+               success:function(msg){
+                   if(msg){
+                       layer.msg('已安全退出!',{icon:6}) ;
+                       setTimeout(function(){
+                               var log = "{:url('Publics/login')}";
+                               window.location.href = log;
+                       },2000);
+                   }
+               }
+           })
+        }
+    </script>
+    </div>
+</body>
+</html>
